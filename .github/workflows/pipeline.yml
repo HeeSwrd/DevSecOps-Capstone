@@ -36,6 +36,22 @@ jobs:
 
     - name: Run GitLeaks (Secret Scanning)
       uses: gitleaks/gitleaks-action@v2
+
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/init@v2
+      with:
+        languages: python
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: scan-reports
+        path: |
+          unit_test_report.txt
+          trivy_report.txt
+          checkov_report.txt
   
     - name: Install Trivy
       run: |
@@ -63,5 +79,5 @@ jobs:
     
       - name: Run Checkov scan
         run: checkov -d . || true
-      
+       
     
