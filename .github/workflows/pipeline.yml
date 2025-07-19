@@ -42,5 +42,7 @@ jobs:
       run: docker build -t devsecops-app .
 
     - name: Run Trivy Scan on Docker Image
-      run: trivy image --severity HIGH,CRITICAL devsecops-app > trivy_report.txt
+      run: |
+        trivy image --severity HIGH,CRITICAL devsecops-app | tee trivy_report.txt
+    
   
