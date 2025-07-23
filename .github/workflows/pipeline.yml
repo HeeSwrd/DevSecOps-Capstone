@@ -79,13 +79,13 @@ jobs:
           export PATH="$PATH:$(pwd)/sonar-scanner-5.0.1.3006-linux/bin"
           echo "$(pwd)/sonar-scanner-5.0.1.3006-linux/bin" >> $GITHUB_PATH
                 
-      - name: Run SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          sonar-scanner -X \
-            -Dsonar.projectKey=DevSecOpsCapstone \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=http://192.168.1.80:9000 \
-            -Dsonar.login=$SONAR_TOKEN
+      #- name: Run SonarQube Analysis
+        #env:
+          #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        #run: |
+          #sonar-scanner -X \
+            #-Dsonar.projectKey=DevSecOpsCapstone \
+            #-Dsonar.sources=. \
+            #-Dsonar.host.url=http://localhost:9000 \
+            #-Dsonar.login=$SONAR_TOKEN
         
