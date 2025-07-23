@@ -1,2 +1,2 @@
 pytest
-pip install --upgrade setuptools
+
