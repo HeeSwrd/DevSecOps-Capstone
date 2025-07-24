@@ -64,28 +64,33 @@ jobs:
     
       - name: Run Checkov scan
         run: checkov -d . || true
-       
-  sonarcloud-scan:
-    name: SonarQube Scan
-    runs-on: ubuntu-latest
+            
+  sonarqube-scan:
+    runs-on: ubuntu-latest          
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Install SonarScanner
+              
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+         java-version: '17'
+         distribution: 'adopt'
+              
+      - name: Download SonarScanner
         run: |
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
           unzip sonar-scanner-cli-5.0.1.3006-linux.zip
-          export PATH="$PATH:$(pwd)/sonar-scanner-5.0.1.3006-linux/bin"
-          echo "$(pwd)/sonar-scanner-5.0.1.3006-linux/bin" >> $GITHUB_PATH
-                
-      - name: Run SonarQube Analysis
+          mv sonar-scanner-5.0.1.3006-linux sonar-scanner
+          echo "$PWD/sonar-scanner/bin" >> $GITHUB_PATH
+              
+      - name: Run SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar-scanner -X \
+          sonar-scanner \
             -Dsonar.projectKey=DevSecOpsCapstone \
             -Dsonar.sources=. \
-            -Dsonar.host.url=http://192.168.1.80:9000
-            -Dsonar.login=$SONAR_TOKEN
-        
+            -Dsonar.host.url=http://192.168.1.80:9000 \
+            -Dsonar.token=$SONAR_TOKEN
+              
